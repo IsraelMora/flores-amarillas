@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para el Amor de Mi Vida - Flores Amarillas 🌻</title>
-    
+
     <!-- Meta SEO & Social -->
-    <meta name="description" content="Un detalle especial para el día de las flores amarillas. Una sorpresa llena de amor y girasoles.">
+    <meta name="description"
+        content="Un detalle especial para el día de las flores amarillas. Una sorpresa llena de amor y girasoles.">
     <meta name="author" content="Regalo Especial">
     <meta name="theme-color" content="#FFD700">
-    
+
     <!-- Preload Critical Assets -->
     <link rel="preload" href="sunflowers.png" as="image">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <!-- Animation Middleware -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+
 <body>
 
     <!-- Splash Screen (Initial Interaction) -->
     <header id="splash" role="banner">
         <div class="splash-content" aria-live="polite">
-            <h1 class="fade-in">Para el amor de mi vida</h1>
+            <h1 class="fade-in">Para el Amor de mi Vida</h1>
             <p class="fade-in-delayed">Haz clic para descubrir algo especial...</p>
-            <button id="start-btn" 
-                    onclick="startExperienceAndMusic()" 
-                    class="fade-in-delayed shadow-hover"
-                    aria-label="Haz clic para ver las flores amarillas">
+            <button id="start-btn" onclick="startExperienceAndMusic()" class="fade-in-delayed shadow-hover"
+                aria-label="Haz clic para ver las flores amarillas">
                 Ver mis flores
             </button>
         </div>
@@ -43,21 +46,19 @@
     <!-- Main Experience Content -->
     <main id="main-container" class="hidden" aria-hidden="true">
         <div id="petals-canvas" aria-hidden="true"></div>
-        
+
         <div class="main-visual">
             <!-- Visual Hero Section -->
             <section class="flower-reveal-container" aria-label="Ramo de girasoles virtuales">
-                <img src="sunflowers.png" 
-                     alt="Ramo de girasoles amarillos resplandecientes" 
-                     id="main-flowers" 
-                     class="hidden-visual">
+                <img src="sunflowers.png" alt="Ramo de girasoles amarillos resplandecientes" id="main-flowers"
+                    class="hidden-visual">
             </section>
-            
+
             <div class="content-overlay">
                 <!-- Time & Date Counter Card -->
                 <section class="glass-card section fade-up" id="counter-section" aria-labelledby="counter-title">
-                    <h2 id="counter-title">El tiempo de nuestra historia</h2>
-                    
+                    <h2 id="counter-title">El Tiempo de Nuestra Historia</h2>
+
                     <div id="date-display" class="date-header">
                         <span id="current-date-full">Cargando fecha...</span>
                     </div>
@@ -77,20 +78,20 @@
                     <p class="since-date">Desde aquel maravilloso 30 de junio de 2020</p>
                     <p class="and-more">...y lo que nos queda ❤️</p>
                 </section>
-                
+
                 <!-- Romantic Poem Card -->
                 <article class="poem-container glass-card section fade-up" aria-labelledby="poem-title">
                     <div class="poem">
                         <h2 id="poem-title">No te rindas</h2>
-                        <p class="poem-snippet">No te rindas, aún estás a tiempo de alcanzar y comenzar de nuevo, aceptar tus sombras, enterrar tus miedos...</p>
-                        <button class="expand-poem btn-outline" 
-                                onclick="showFullPoem()"
-                                aria-label="Leer el poema completo de Mario Benedetti">
+                        <p class="poem-snippet">No te rindas, aún estás a tiempo de alcanzar y comenzar de nuevo,
+                            aceptar tus sombras, enterrar tus miedos...</p>
+                        <button class="expand-poem btn-outline" onclick="showFullPoem()"
+                            aria-label="Leer el poema completo de Mario Benedetti">
                             Leer poema completo
                         </button>
                     </div>
                 </article>
-                
+
                 <footer class="love-footer">
                     <p>Feliz día de las flores amarillas, mi vida ❤️</p>
                 </footer>
@@ -110,13 +111,25 @@
             <div class="full-poem-content">
                 <h2 id="modal-title">No te rindas</h2>
                 <div class="scrolling-poem">
-                    <p>No te rindas, aún estás a tiempo<br>De alcanzar y comenzar de nuevo,<br>Aceptar tus sombras,<br>Enterrar tus miedos,<br>Liberar el lastre,<br>Retomar el vuelo.</p>
-                    <p>No te rindas que la vida es eso,<br>Continuar el viaje,<br>Perseguir tus sueños,<br>Destrabar el tiempo,<br>Correr los escombros,<br>Y destapar el cielo.</p>
-                    <p>No te rindas, por favor no cedas,<br>Aunque el frío queme,<br>Aunque el miedo muerda,<br>Aunque el sol se esconda,<br>Y se calle el viento,<br>Aún hay fuego en tu alma.<br>Aún hay vida en tus sueños.</p>
-                    <p>Porque la vida es tuya y tuyo también el deseo.<br>Porque lo has querido y porque te quiero.<br>Porque existe el vino y el amor, es cierto.<br>Porque no hay heridas que no cure el tiempo.</p>
-                    <p>Abrir las puertas,<br>Quitar los cerrojos,<br>Abandonar las murallas que te protegieron,<br>Vivir la vida y aceptar el reto,<br>Recuperar la risa,<br>Ensayar un canto,<br>Bajar la guardia y extender las manos.<br>Desplegar las alas.<br>E intentar de nuevo,<br>Celebrar la vida y retomar los cielos.</p>
-                    <p>No te rindas, por favor no cedas,<br>Aunque el frío queme,<br>Aunque el miedo muerda,<br>Aunque el sol se ponga y se calle el viento,<br>Aún hay fuego en tu alma,<br>Aún hay vida en tus sueños.</p>
-                    <p>Porque cada día es un comienzo nuevo,<br>Porque esta es la hora y el mejor momento.<br>Porque no estás solo, porque yo te quiero.</p>
+                    <p>No te rindas, aún estás a tiempo<br>De alcanzar y comenzar de nuevo,<br>Aceptar tus
+                        sombras,<br>Enterrar tus miedos,<br>Liberar el lastre,<br>Retomar el vuelo.</p>
+                    <p>No te rindas que la vida es eso,<br>Continuar el viaje,<br>Perseguir tus sueños,<br>Destrabar el
+                        tiempo,<br>Correr los escombros,<br>Y destapar el cielo.</p>
+                    <p>No te rindas, por favor no cedas,<br>Aunque el frío queme,<br>Aunque el miedo muerda,<br>Aunque
+                        el sol se esconda,<br>Y se calle el viento,<br>Aún hay fuego en tu alma.<br>Aún hay vida en tus
+                        sueños.</p>
+                    <p>Porque la vida es tuya y tuyo también el deseo.<br>Porque lo has querido y porque te
+                        quiero.<br>Porque existe el vino y el amor, es cierto.<br>Porque no hay heridas que no cure el
+                        tiempo.</p>
+                    <p>Abrir las puertas,<br>Quitar los cerrojos,<br>Abandonar las murallas que te protegieron,<br>Vivir
+                        la vida y aceptar el reto,<br>Recuperar la risa,<br>Ensayar un canto,<br>Bajar la guardia y
+                        extender las manos.<br>Desplegar las alas.<br>E intentar de nuevo,<br>Celebrar la vida y retomar
+                        los cielos.</p>
+                    <p>No te rindas, por favor no cedas,<br>Aunque el frío queme,<br>Aunque el miedo muerda,<br>Aunque
+                        el sol se ponga y se calle el viento,<br>Aún hay fuego en tu alma,<br>Aún hay vida en tus
+                        sueños.</p>
+                    <p>Porque cada día es un comienzo nuevo,<br>Porque esta es la hora y el mejor momento.<br>Porque no
+                        estás solo, porque yo te quiero.</p>
                 </div>
                 <p class="author">— Mario Benedetti</p>
             </div>
@@ -127,4 +140,5 @@
     <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script src="script.js" defer></script>
 </body>
+
 </html>
