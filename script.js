@@ -1,7 +1,7 @@
 /**
  * Romantic Experience - script.js
  * Best Practices & Production Grade Logic
- * 🌻 Para el Día de las Flores Amarillas
+ * 🌻 Para el Día de las Flores Amarillas - Enhanced Animations Edition
  */
 
 "use strict";
@@ -12,14 +12,15 @@
         START_DATE: new Date('2020-06-30T00:00:00'),
         SPOTIFY_URI: 'spotify:track:4yNk9iz9WVJikRFle3XEvn', // JVKE - Golden Hour
         PETAL: {
-            BASE_COUNT: 45,
-            MOBILE_COUNT: 25,
-            FALL_DURATION: [10, 18],
-            SWAY_DURATION: [2, 4]
+            BASE_COUNT: 48,
+            MOBILE_COUNT: 28,
+            FALL_DURATION: [12, 22],
+            SWAY_DURATION: [3, 5]
         },
-        REVEAL_ANIM: {
-            DUR: 1.5,
-            EASE: "power3.inOut"
+        REVEAL: {
+            DUR: 1.6,
+            STAGGER: 0.3,
+            EASE: "expo.inOut"
         }
     };
 
@@ -37,6 +38,7 @@
         spotify: document.getElementById('spotify-container'),
         modal: document.getElementById('poem-modal'),
         currentDate: document.getElementById('current-date-full'),
+        cards: document.querySelectorAll('.glass-card'),
         timer: {
             years: document.getElementById('years'),
             months: document.getElementById('months'),
@@ -49,9 +51,10 @@
 
     // --- 2. SPOTIFY LOGIC ---
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        const isMobile = window.innerWidth < 600;
         const options = {
             width: '100%',
-            height: '152',
+            height: isMobile ? '80' : '152',
             uri: CONFIG.SPOTIFY_URI
         };
 
@@ -63,7 +66,7 @@
                 if (position > 0 && duration > 0 && position >= duration - 500) {
                     if (!STATE.isMusicEnded) {
                         STATE.isMusicEnded = true;
-                        handleSongEnd();
+                        gsap.to(DOM.spotify, { opacity: 0, duration: 2, onComplete: () => DOM.spotify.style.display = 'none' });
                     }
                 }
             });
@@ -72,45 +75,64 @@
         IFrameAPI.createController(document.getElementById('embed-iframe'), options, callback);
     };
 
-    function handleSongEnd() {
-        if (!DOM.spotify) return;
-        gsap.to(DOM.spotify, { opacity: 0, duration: 2, ease: "power2.inOut", onComplete: () => DOM.spotify.classList.add('hidden') });
-    }
-
     // --- 3. EXPERIENCE FLOW ---
     window.startExperienceAndMusic = () => {
         if (STATE.isStarted) return;
         STATE.isStarted = true;
 
+        // Music Start
         if (STATE.spotifyController) {
             STATE.spotifyController.play();
             DOM.spotify.classList.remove('hidden-no-show');
             DOM.spotify.style.opacity = '1';
         }
 
+        // Screen Transition
         gsap.to(DOM.splash, {
             opacity: 0, 
-            duration: CONFIG.REVEAL_ANIM.DUR, 
-            ease: CONFIG.REVEAL_ANIM.EASE,
+            duration: CONFIG.REVEAL.DUR, 
+            ease: CONFIG.REVEAL.EASE,
             onComplete: () => {
                 DOM.splash.classList.add('hidden');
                 DOM.main.classList.remove('hidden');
                 DOM.main.setAttribute('aria-hidden', 'false');
                 
-                gsap.to(DOM.flowers, {
+                // --- Premium Reveal Sequence ---
+                const tl = gsap.timeline();
+
+                // 1. Flower Bloom & Float
+                tl.to(DOM.flowers, {
                     opacity: 1,
                     scale: 1,
                     duration: 2.5,
-                    ease: "power2.out",
+                    ease: "back.out(1.2)",
                     onStart: () => DOM.flowers.classList.add('visible-visual')
                 });
+
+                // Infinite Floating Animation for Flowers
+                gsap.to(DOM.flowers, {
+                    y: "-=15",
+                    duration: 3,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                // 2. Staggered Cards Entrance
+                tl.from(DOM.cards, {
+                    y: 60,
+                    opacity: 0,
+                    duration: 1.2,
+                    stagger: CONFIG.REVEAL.STAGGER,
+                    ease: "power3.out"
+                }, "-=1.5");
 
                 initNature();
             }
         });
     };
 
-    // --- 4. ENGINE LOGIC ---
+    // --- 4. NATURE ENGINE (PETALS) ---
     function initNature() {
         const count = window.innerWidth < 600 ? CONFIG.PETAL.MOBILE_COUNT : CONFIG.PETAL.BASE_COUNT;
         for (let i = 0; i < count; i++) {
@@ -147,7 +169,7 @@
         });
 
         gsap.to(petal, {
-            x: (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 60),
+            x: (Math.random() > 0.5 ? 2 : -2) * (30 + Math.random() * 40),
             duration: CONFIG.PETAL.SWAY_DURATION[0] + Math.random() * (CONFIG.PETAL.SWAY_DURATION[1] - CONFIG.PETAL.SWAY_DURATION[0]),
             repeat: -1,
             yoyo: true,
@@ -155,6 +177,7 @@
         });
     }
 
+    // --- 5. TIME ENGINE (PRECISE) ---
     function formatCurrentDate() {
         if (!DOM.currentDate) return;
         const now = new Date();
@@ -195,15 +218,34 @@
         formatCurrentDate();
     }
 
-    // --- 5. UI HANDLERS ---
+    // --- 6. UI HANDLERS ---
     window.showFullPoem = () => {
         DOM.modal.classList.remove('hidden');
         DOM.modal.style.display = 'flex';
-        gsap.fromTo(DOM.modal, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+        
+        // Premium Modal Entrance
+        gsap.fromTo(DOM.modal, 
+            { opacity: 0, backgroundColor: "rgba(0,0,0,0)" }, 
+            { opacity: 1, backgroundColor: "rgba(0,0,0,0.5)", duration: 0.6 }
+        );
+        
+        gsap.fromTo(DOM.modal.querySelector('.modal-content'), 
+            { y: 50, scale: 0.9, opacity: 0 }, 
+            { y: 0, scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" }
+        );
     };
 
     function closeModal() {
-        gsap.to(DOM.modal, { opacity: 0, duration: 0.3, onComplete: () => { DOM.modal.classList.add('hidden'); DOM.modal.style.display = 'none'; }});
+        const content = DOM.modal.querySelector('.modal-content');
+        gsap.to(content, { y: 30, opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.in" });
+        gsap.to(DOM.modal, { 
+            opacity: 0, 
+            duration: 0.5, 
+            onComplete: () => { 
+                DOM.modal.classList.add('hidden'); 
+                DOM.modal.style.display = 'none'; 
+            }
+        });
     }
 
     const init = () => {
