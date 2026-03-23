@@ -297,27 +297,32 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 }
 
 .modal-content {
+    background: rgba(255, 252, 240, 0.98) !important;
     width: 90%;
     max-width: 40rem;
     max-height: 85vh;
     padding: 3.5rem 2.5rem 3rem;
     position: relative;
-    border-radius: 2.2rem;
+    border-radius: 2.5rem;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 30px 100px rgba(0,0,0,0.15);
+    text-align: center; /* Center everything in the card */
 }
 
 .scrolling-poem {
     overflow-y: auto;
-    padding-right: 1.2rem;
+    padding-right: 0.5rem;
     max-height: 55vh;
-    text-align: left;
+    text-align: center; /* Center the poem text lines */
 }
 
 .scrolling-poem p {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.7rem;
-    margin-bottom: 2rem;
-    color: #5d4037;
+    font-size: 1.8rem;
     line-height: 1.8;
+    margin-bottom: 2rem;
+    color: #3e2723; /* Darker for better contrast */
+    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.05); /* Soft, tender effect */
 }
 
 .close-modal {
