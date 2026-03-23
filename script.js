@@ -49,10 +49,9 @@
 
     // --- 2. SPOTIFY LOGIC ---
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
-        const isMobile = window.innerWidth < 600;
         const options = {
             width: '100%',
-            height: isMobile ? '80' : '152',
+            height: '152',
             uri: CONFIG.SPOTIFY_URI
         };
 

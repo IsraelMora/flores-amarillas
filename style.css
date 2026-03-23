@@ -278,13 +278,10 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 /* 6. LAYER: SPOTIFY & MODALS */
 #spotify-container {
     position: fixed;
-    bottom: 1.8rem;
-    right: 1.8rem;
+    bottom: 2rem;
+    right: 2rem;
     z-index: 2500;
     width: 22rem;
-    border-radius: 0.8rem;
-    overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.22);
     transition: opacity 1.5s ease-in-out;
 }
 
@@ -359,8 +356,6 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
         bottom: 1rem;
         left: 1rem;
         right: 1rem;
-        transform: scale(0.88);
-        transform-origin: bottom center;
     }
     .modal-content { padding: 3rem 1.8rem; }
     .scrolling-poem p { font-size: 1.5rem; }
