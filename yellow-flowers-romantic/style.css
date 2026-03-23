@@ -1,0 +1,367 @@
+/**
+ * Romantic Experience - Dia de las Flores Amarillas 🌻
+ * High Performance & Accessibility Standard
+ */
+
+/* 1. LAYER: BASE & DESIGN TOKENS */
+:root {
+    --primary-yellow: #FFD700;
+    --gold: #CFB53B;
+    --dark-gold: #b8860b;
+    --text-color: #3e2723;
+    --text-muted: #6d4c41;
+    --bg-cream: #fff9e6;
+    --glass: rgba(255, 255, 255, 0.22);
+    --glass-border: rgba(255, 255, 255, 0.45);
+    --shadow-soft: 0 10px 40px rgba(0,0,0,0.06);
+    --transition-standard: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Base Reset for consistency across browsers */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 16px; /* Base 1rem = 16px */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-cream);
+    color: var(--text-color);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Typography Scale */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--dark-gold);
+}
+
+h1 { font-size: clamp(2.2rem, 6.5vw, 4rem); }
+h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+
+/* Visibility Utilities */
+.hidden { display: none !important; }
+.hidden-no-show { opacity: 0; pointer-events: none; }
+
+/* 2. LAYER: GLOBAL SCROLLBAR */
+::-webkit-scrollbar { width: 0.5rem; }
+::-webkit-scrollbar-track { background: var(--bg-cream); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--primary-yellow), var(--gold));
+    border-radius: 1rem;
+}
+
+/* 3. LAYER: SPLASH SCREEN */
+#splash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #fffdf2 0%, #ffefba 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    text-align: center;
+}
+
+.splash-content p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin: 1.5rem 0 2.5rem;
+    font-weight: 300;
+}
+
+#start-btn {
+    padding: 1.1rem 3.2rem;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, var(--primary-yellow), var(--gold));
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #2e2400;
+    box-shadow: 0 10px 30px rgba(207, 181, 59, 0.35);
+    transition: var(--transition-standard);
+    outline: none;
+}
+
+#start-btn:hover, #start-btn:focus {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 50px rgba(207, 181, 59, 0.5);
+}
+
+/* 4. LAYER: MAIN EXPERIENCE */
+#main-container {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 50%, #fffdf2 0%, #ffefba 100%);
+    position: relative;
+    padding: 3rem 1.25rem;
+}
+
+#petals-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.petal {
+    position: absolute;
+    border-radius: 0 100% 0 100%;
+}
+
+.main-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5rem;
+    z-index: 20;
+    position: relative;
+}
+
+.flower-reveal-container {
+    width: 100%;
+    max-width: 40rem;
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.12));
+}
+
+#main-flowers {
+    width: 100%;
+    height: auto;
+    border-radius: 2.5rem;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+#main-flowers.visible-visual {
+    transition: opacity 2s, transform 2s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 1;
+    transform: scale(1);
+}
+
+.content-overlay {
+    width: 100%;
+    max-width: 38rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* 5. LAYER: GLASS CARDS */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+}
+
+/* Counter UI */
+.date-header {
+    margin-bottom: 1.5rem;
+}
+
+#current-date-full {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.05rem;
+}
+
+#timer {
+    display: flex;
+    justify-content: center;
+    gap: 2.2rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.time-unit span {
+    font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+    font-weight: 700;
+    color: #d4a017;
+    display: block;
+}
+
+.time-unit label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: var(--text-muted);
+}
+
+.precise-timer {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 237, 186, 0.4);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.time-part {
+    display: flex;
+    flex-direction: column;
+    min-width: 4rem;
+}
+
+.time-part span {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #dfae00;
+}
+
+.time-part label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.since-date {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.and-more {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.4rem;
+    color: var(--dark-gold);
+    margin-top: 2rem;
+    animation: pulseHeart 2.5s infinite ease-in-out;
+}
+
+/* Poem UI */
+.poem-snippet {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: #5d4037;
+    margin: 1.5rem 0 2rem;
+}
+
+.expand-poem {
+    padding: 0.8rem 2.4rem;
+    background: none;
+    border: 1px solid var(--gold);
+    border-radius: 50px;
+    color: var(--dark-gold);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-standard);
+}
+
+.expand-poem:hover {
+    background: rgba(207, 181, 59, 0.12);
+}
+
+.love-footer {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.1rem;
+    color: var(--dark-gold);
+    text-align: center;
+    padding: 1rem 0 4rem;
+}
+
+/* 6. LAYER: SPOTIFY & MODALS */
+#spotify-container {
+    position: fixed;
+    bottom: 1.8rem;
+    right: 1.8rem;
+    z-index: 2500;
+    width: 22rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.22);
+    transition: opacity 1.5s ease-in-out;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 4000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 40rem;
+    max-height: 85vh;
+    padding: 3.5rem 2.5rem 3rem;
+    position: relative;
+    border-radius: 2.2rem;
+}
+
+.scrolling-poem {
+    overflow-y: auto;
+    padding-right: 1.2rem;
+    max-height: 55vh;
+    text-align: left;
+}
+
+.scrolling-poem p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+    color: #5d4037;
+    line-height: 1.8;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 2.22rem;
+    font-size: 3.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark-gold);
+}
+
+.author {
+    margin-top: 1.5rem;
+    font-weight: 700;
+    text-align: right;
+    color: var(--dark-gold);
+}
+
+/* 7. LAYER: KEYFRAMES & RESPONSIVE */
+@keyframes pulseHeart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.fade-in { opacity: 0; animation: animFadeIn 1.8s forwards; }
+.fade-in-delayed { opacity: 0; animation: animFadeIn 1.8s forwards 0.6s; }
+@keyframes animFadeIn { to { opacity: 1; } }
+
+@media (max-width: 600px) {
+    #timer { gap: 1rem; }
+    .splash-content h1 { font-size: 2.6rem; }
+    #spotify-container {
+        width: calc(100% - 2rem);
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        transform: scale(0.88);
+        transform-origin: bottom center;
+    }
+    .modal-content { padding: 3rem 1.8rem; }
+    .scrolling-poem p { font-size: 1.5rem; }
+}
