@@ -1,23 +1,18 @@
-/**
- * Romantic Experience - Dia de las Flores Amarillas 🌻
- * High Performance & Accessibility Standard
- */
-
-/* 1. LAYER: BASE & DESIGN TOKENS */
+/* 1. LAYER: BASE & TOKENS */
 :root {
     --primary-yellow: #FFD700;
     --gold: #CFB53B;
-    --dark-gold: #b8860b;
-    --text-color: #3e2723;
-    --text-muted: #6d4c41;
+    --dark-gold: #8d6e15;
+    --text-color: #2b1f1c;
+    --text-muted: #5d4037;
     --bg-cream: #fff9e6;
-    --glass: rgba(255, 255, 255, 0.22);
-    --glass-border: rgba(255, 255, 255, 0.45);
-    --shadow-soft: 0 10px 40px rgba(0,0,0,0.06);
-    --transition-standard: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --glass: rgba(255, 255, 255, 0.18);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow-premium: 0 20px 60px rgba(0,0,0,0.08), 0 5px 15px rgba(0,0,0,0.03);
+    --transition-standard: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    --inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Base Reset for consistency across browsers */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -26,27 +21,44 @@
 }
 
 html {
-    font-size: 16px; /* Base 1rem = 16px */
+    font-size: 16px;
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-cream);
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(-45deg, #fff9e6, #fffdf2, #ffefba, #fff1b5);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: var(--text-color);
     overflow-x: hidden;
     line-height: 1.6;
 }
 
-/* Typography Scale */
+/* 2. LAYER: TYPOGRAPHY */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     color: var(--dark-gold);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
 }
 
-h1 { font-size: clamp(2.2rem, 6.5vw, 4rem); }
-h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+h1 { 
+    font-size: clamp(2.5rem, 8vw, 4.5rem); 
+    background: linear-gradient(90deg, var(--dark-gold), #cfb53b, var(--dark-gold));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmerText 5s linear infinite;
+}
+
+@keyframes shimmerText {
+    to { background-position: 200% center; }
+}
+
+h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 0.5rem; }
 
 /* Visibility Utilities */
 .hidden { display: none !important; }
@@ -64,7 +76,7 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 #splash {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, #fffdf2 0%, #ffefba 100%);
+    background: inherit; /* Use the animated body background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,34 +92,38 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 }
 
 .btn-outline {
-    padding: 0.8rem 2.4rem;
-    background: none;
-    border: 2px solid var(--gold);
-    border-radius: 50px;
+    padding: 0.9rem 2.8rem;
+    background: rgba(255, 255, 255, 0.05); /* Subtle glass base */
+    border: 1.5px solid var(--gold);
+    border-radius: 100px;
     color: var(--dark-gold);
-    font-weight: 700;
-    font-size: 1.1rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
     cursor: pointer;
     transition: var(--transition-standard);
-    text-decoration: none;
-    display: inline-block;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     outline: none;
+    box-shadow: 0 4px 12px rgba(207, 181, 59, 0.1);
 }
 
 .btn-outline:hover, .btn-outline:focus {
-    background: rgba(207, 181, 59, 0.12);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(207, 181, 59, 0.2);
+    background: var(--gold);
+    color: white;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(207, 181, 59, 0.3);
 }
 
 #start-btn, .expand-poem {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 /* 4. LAYER: MAIN EXPERIENCE */
 #main-container {
     min-height: 100vh;
-    background: radial-gradient(circle at 50% 50%, #fffdf2 0%, #ffefba 100%);
+    background: transparent; /* Overlay on the animated body background */
     position: relative;
     padding: 3rem 1.25rem;
 }
@@ -161,16 +177,22 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
     gap: 2.5rem;
 }
 
-/* 5. LAYER: GLASS CARDS */
+/* 5. LAYER: REFINED GLASS CARDS */
 .glass-card {
     background: var(--glass);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid var(--glass-border);
-    border-radius: 2rem;
-    padding: 2.5rem;
-    box-shadow: var(--shadow-soft);
+    border-radius: 2.5rem;
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-premium);
+    box-shadow: var(--shadow-premium), var(--inner-glow);
     text-align: center;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
 }
 
 /* Counter UI */
@@ -243,27 +265,36 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 
 .and-more {
     font-family: 'Dancing Script', cursive;
-    font-size: 2.4rem;
+    font-size: 3rem;
     color: var(--dark-gold);
     margin-top: 2rem;
-    animation: pulseHeart 2.5s infinite ease-in-out;
+    animation: pulseHeart 3s infinite ease-in-out;
+    text-shadow: 0 4px 20px rgba(255, 215, 0, 0.35);
 }
 
-/* Poem UI */
+/* Poem UI Enhanced Typography */
 .poem-snippet {
     font-family: 'Dancing Script', cursive;
     font-size: 1.6rem;
-    color: #5d4037;
-    margin: 1.5rem 0 2rem;
+    line-height: 1.6;
+    color: #3e2723;
+    padding: 1rem 1.5rem;
+    position: relative;
+    font-style: italic;
 }
 
 
 .love-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 12rem; /* Espacio vertical generoso */
     font-family: 'Dancing Script', cursive;
-    font-size: 2.1rem;
+    font-size: 2.5rem;
     color: var(--dark-gold);
     text-align: center;
-    padding: 1rem 0 4rem;
+    padding: 2rem 0 6rem;
+    text-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
 }
 
 /* 6. LAYER: SPOTIFY & MODALS */
@@ -288,16 +319,18 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 }
 
 .modal-content {
-    background: rgba(255, 252, 240, 0.98) !important;
-    width: 90%;
-    max-width: 40rem;
+    background: rgba(255, 253, 245, 0.92) !important; /* Más opaco para lectura */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 92%;
+    max-width: 44rem;
     max-height: 85vh;
-    padding: 3.5rem 2.5rem 3rem;
+    padding: 4.5rem 3.5rem 3.5rem;
     position: relative;
     border-radius: 2.5rem;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 0 30px 100px rgba(0,0,0,0.15);
-    text-align: center; /* Center everything in the card */
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.18);
+    text-align: center;
 }
 
 .scrolling-poem {
@@ -308,12 +341,14 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 }
 
 .scrolling-poem p {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
-    line-height: 1.8;
-    margin-bottom: 2rem;
-    color: #3e2723; /* Darker for better contrast */
-    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.05); /* Soft, tender effect */
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    line-height: 1.9;
+    margin-bottom: 2.5rem;
+    color: #3e2723;
+    letter-spacing: 0.01rem;
+    text-shadow: 0.3px 0.3px 1px rgba(0,0,0,0.05); /* Toque de suavidad */
 }
 
 .close-modal {
@@ -335,6 +370,16 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 }
 
 /* 7. LAYER: KEYFRAMES & RESPONSIVE */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmerText {
+    to { background-position: 200% center; }
+}
+
 @keyframes pulseHeart {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.08); }
@@ -346,13 +391,16 @@ h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
 
 @media (max-width: 600px) {
     #timer { gap: 1rem; }
-    .splash-content h1 { font-size: 2.6rem; }
+    .splash-content h1 { font-size: 2.3rem; }
     #spotify-container {
         width: calc(100% - 2rem);
         bottom: 1rem;
         left: 1rem;
         right: 1rem;
     }
-    .modal-content { padding: 3rem 1.8rem; }
-    .scrolling-poem p { font-size: 1.5rem; }
+    .modal-content { 
+        padding: 3rem 1.5rem; 
+        width: 95%;
+    }
+    .scrolling-poem p { font-size: 1.1rem; }
 }

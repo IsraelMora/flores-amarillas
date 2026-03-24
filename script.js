@@ -49,7 +49,7 @@
         }
     };
 
-    // --- 2. SPOTIFY LOGIC ---
+    // --- 2. SPOTIFY INTEGRATION ---
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         const isMobile = window.innerWidth < 600;
         const options = {
@@ -59,21 +59,47 @@
         };
 
         const callback = (EmbedController) => {
+            if (!EmbedController) {
+                console.warn("Spotify EmbedController could not be initialized.");
+                return;
+            }
             STATE.spotifyController = EmbedController;
             
             EmbedController.on('playback_update', (e) => {
                 const { position, duration } = e.data;
-                if (position > 0 && duration > 0 && position >= duration - 500) {
+                if (position > 0 && duration > 0 && position >= duration - 1000) {
                     if (!STATE.isMusicEnded) {
                         STATE.isMusicEnded = true;
-                        gsap.to(DOM.spotify, { opacity: 0, duration: 2, onComplete: () => DOM.spotify.style.display = 'none' });
+                        hideSpotifyPlayer();
                     }
                 }
             });
+
+            // Handle possible playback errors
+            EmbedController.on('error', (err) => {
+                console.error("Spotify Playback Error:", err);
+            });
         };
 
-        IFrameAPI.createController(document.getElementById('embed-iframe'), options, callback);
+        try {
+            IFrameAPI.createController(document.getElementById('embed-iframe'), options, callback);
+        } catch (error) {
+            console.error("Error creating Spotify controller:", error);
+        }
     };
+
+    function hideSpotifyPlayer() {
+        if (!DOM.spotify) return;
+        gsap.to(DOM.spotify, { 
+            opacity: 0, 
+            duration: 2, 
+            ease: "power2.inOut",
+            onComplete: () => {
+                DOM.spotify.classList.add('hidden');
+                DOM.spotify.style.display = 'none';
+            }
+        });
+    }
 
     // --- 3. EXPERIENCE FLOW ---
     window.startExperienceAndMusic = () => {
@@ -118,7 +144,7 @@
                     ease: "sine.inOut"
                 });
 
-                // 2. Staggered Cards Entrance
+                // 2. Staggered Cards Entrance (Restored)
                 tl.from(DOM.cards, {
                     y: 60,
                     opacity: 0,
@@ -127,6 +153,29 @@
                     ease: "power3.out"
                 }, "-=1.5");
 
+                // 3. Parallax/Tilt Effect for Cards
+                window.addEventListener('mousemove', (e) => {
+                    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+                    
+                    gsap.to(DOM.cards, {
+                        rotateY: mouseX * 5,
+                        rotateX: -mouseY * 5,
+                        duration: 1.2,
+                        ease: "power2.out",
+                        stagger: 0.1
+                    });
+
+                    if (DOM.flowers) {
+                        gsap.to(DOM.flowers, {
+                            x: mouseX * 20,
+                            y: mouseY * 15,
+                            duration: 1.5,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+
                 initNature();
             }
         });
@@ -134,10 +183,27 @@
 
     // --- 4. NATURE ENGINE (PETALS) ---
     function initNature() {
-        const count = window.innerWidth < 600 ? CONFIG.PETAL.MOBILE_COUNT : CONFIG.PETAL.BASE_COUNT;
+        const isMobile = window.innerWidth < 600;
+        const count = isMobile ? CONFIG.PETAL.MOBILE_COUNT : CONFIG.PETAL.BASE_COUNT;
+        
+        // Spawn initial batch
         for (let i = 0; i < count; i++) {
             spawnPetal(true);
         }
+
+        // Add responsiveness to environment
+        window.addEventListener('resize', debounce(() => {
+            // Optional: Adjust petals count on the fly if needed
+            // For now, we mainly ensure the canvas is responsive via CSS
+        }, 250));
+    }
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
     }
 
     function spawnPetal(initial = false) {
@@ -249,12 +315,27 @@
     }
 
     const init = () => {
+        // Accessibility and UI Listeners
         const closer = document.querySelector('.close-modal');
         if (closer) closer.addEventListener('click', closeModal);
-        window.addEventListener('click', (e) => { if (e.target === DOM.modal) closeModal(); });
+        
+        // Handle clicks outside modal content
+        window.addEventListener('click', (e) => { 
+            if (e.target === DOM.modal) closeModal(); 
+        });
 
+        // Handle Escape key for modal
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && !DOM.modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // Initialize Tick/Schedule
         setInterval(updateCounter, 1000);
         updateCounter();
+        
+        console.log("Romantic Experience Initialized with Excellence. ✨");
     };
 
     document.addEventListener('DOMContentLoaded', init);
